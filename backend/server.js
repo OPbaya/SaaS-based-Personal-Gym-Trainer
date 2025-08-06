@@ -16,7 +16,7 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 app.use(clerkMiddleware())
-app.use(requireAuth())
+// app.use(requireAuth())
 
 // Routes
 app.get('/', (req, res) => {
@@ -24,7 +24,7 @@ app.get('/', (req, res) => {
 });
 connectDB();
 
-app.use("/api/data", dataRoutes)
+app.use("/api/data", requireAuth(), dataRoutes)
 
 // Start server
 app.listen(PORT, () => {
