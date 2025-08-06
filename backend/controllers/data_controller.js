@@ -373,7 +373,9 @@ export const pdf = async (req, res) => {
         headless: chromium.headless,
     });
     const page = await browser.newPage();
-    await page.setContent(htmlContent, { waitUntil: 'networkidle0' });
+    await page.setContent(htmlContent, {
+        waitUntil: ['domcontentloaded', 'networkidle0']
+ });
     const pdfBuffer = await page.pdf({ format: "A4" });
 
     await browser.close();
