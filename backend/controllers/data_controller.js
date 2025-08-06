@@ -3,9 +3,11 @@ import UserHealthData from "../models/note.js";
 import OpenAI from "openai";
 import dailyEntry from "../models/daily_note.js";
 import dotenv from 'dotenv';
-import puppeteer from 'puppeteer'
+
 import { generateWorkoutPlanHTML } from "./workoutPlan.js";
 import { marked } from 'marked'; 
+import chromium from 'chrome-aws-lambda';
+import puppeteer from 'puppeteer-core';
 
 dotenv.config();
 
@@ -363,7 +365,12 @@ export const pdf = async (req, res) => {
 
     const htmlContent = generateDietPlanHTML(Plan); // assume it's an array of items
 
-    const browser = await puppeteer.launch();
+    const browser = await puppeteer.launch({
+        args: chromium.args,
+        defaultViewport: chromium.defaultViewport,
+        executablePath: await chromium.executablePath || '/usr/bin/chromium-browser',
+        headless: chromium.headless,
+    });
     const page = await browser.newPage();
     await page.setContent(htmlContent);
     const pdfBuffer = await page.pdf({ format: "A4" });
@@ -390,7 +397,12 @@ export const gym_pdf = async (req, res) => {
     const htmlContent = generateWorkoutPlanHTML(Plan); // assume it's an array of items
     // console.log(Plan)
 
-    const browser = await puppeteer.launch();
+    const browser = await puppeteer.launch({
+        args: chromium.args,
+        defaultViewport: chromium.defaultViewport,
+        executablePath: await chromium.executablePath || '/usr/bin/chromium-browser',
+        headless: chromium.headless,
+    });
     const page = await browser.newPage();
     await page.setContent(htmlContent);
     const pdfBuffer = await page.pdf({ format: "A4" });
