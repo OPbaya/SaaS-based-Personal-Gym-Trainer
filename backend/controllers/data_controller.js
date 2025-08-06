@@ -369,9 +369,7 @@ export const pdf = async (req, res) => {
     const browser = await puppeteer.launch({
         args: chromium.args,
         defaultViewport: chromium.defaultViewport,
-        executablePath: isDev
-            ? 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe' // ✅ Windows local path
-            : await chromium.executablePath, // ✅ Vercel will resolve this internally,
+        executablePath: await chromium.executablePath(), // ✅ Vercel will resolve this internally,
         headless: chromium.headless,
     });
     const page = await browser.newPage();
