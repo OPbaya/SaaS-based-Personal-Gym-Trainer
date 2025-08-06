@@ -103,9 +103,26 @@ export default function Homepage() {
             Track your progress, get personalized diet and gym plans, and
             achieve your health goals faster than ever before.
           </p>
-          <button className="mt-8 bg-indigo-600 text-white font-bold py-3 px-8 rounded-lg text-lg hover:bg-indigo-700 transition-colors inline-flex items-center gap-2">
+          {/* <button className="mt-8 bg-indigo-600 text-white font-bold py-3 px-8 rounded-lg text-lg hover:bg-indigo-700 transition-colors inline-flex items-center gap-2">
             Get Started <MoveRight size={20} />
-          </button>
+          </button> */}
+          {user ? (
+            <div className="items-center space-x-4">
+              <button onClick={() => navigate("/v1/dash")}
+              className="cursor-pointer mt-8 bg-indigo-600 text-white font-bold py-3 px-8 rounded-lg text-lg hover:bg-indigo-700 transition-colors inline-flex items-center gap-2">
+                Dashboard <MoveRight size={20} />
+              </button>
+            </div>
+          ) : (
+            <div className="items-center space-x-4">
+              <button onClick={openSignIn}
+              className="cursor-pointer mt-8 bg-indigo-600 text-white font-bold py-3 px-8 rounded-lg text-lg hover:bg-indigo-700 transition-colors inline-flex items-center gap-2">
+                Get Started <MoveRight size={20} />
+              </button>
+              {/* <button onClick={() => openSignIn()}>Sign In</button>
+              <button onClick={() => openSignUp()}>Sign Up</button> */}
+            </div>
+          )}
         </section>
 
         {/* --- Features Section --- */}
