@@ -155,13 +155,13 @@ export default function Plan() {
           {dietPlan && (
             <div className="flex items-center gap-2 sm:gap-4">
               <button
-                onClick={() => handlePdf("Diet")}
+                onClick={handlePdf}
                 className="flex items-center gap-2 bg-slate-700 hover:bg-slate-600 text-slate-300 font-medium text-sm px-4 py-2 rounded-lg transition-colors"
               >
                 <Download size={16} /> Diet PDF
               </button>
               <button
-                onClick={() => handlePdf2("Gym")}
+                onClick={handlePdf2}
                 className="flex items-center gap-2 bg-slate-700 hover:bg-slate-600 text-slate-300 font-medium text-sm px-4 py-2 rounded-lg transition-colors"
               >
                 <Download size={16} /> Gym PDF
