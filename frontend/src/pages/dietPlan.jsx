@@ -4,6 +4,8 @@ import Markdown from "react-markdown";
 import { useAuth } from "@clerk/clerk-react";
 import { useNavigate } from "react-router-dom";
 
+axios.defaults.baseURL = import.meta.env.VITE_BASE_URL;
+
 export default function DietPlan() {
   const [form, setForm] = useState({
     name: "",
@@ -41,7 +43,7 @@ export default function DietPlan() {
 
     try {
       const res = await axios.post(
-        "http://localhost:3000/api/data", 
+        "/api/data", 
         {
           ...form,
           healthConditions: form.healthConditions

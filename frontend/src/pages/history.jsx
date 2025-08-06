@@ -3,6 +3,10 @@ import { ArrowDown, ArrowUp } from "lucide-react";
 
 import axios from "axios";
 import { useAuth } from "@clerk/clerk-react";
+
+axios.defaults.baseURL = import.meta.env.VITE_BASE_URL;
+
+
 // --- The History Page Component ---
 const HistoryPage = () => {
   // Mock data for demonstration. In a real app, this would come from an API.
@@ -18,13 +22,13 @@ const HistoryPage = () => {
   useEffect(() => {
     const fetchHistory = async () => {
       try {
-        const res = await axios.get("http://localhost:3000/api/data/daily", {
+        const res = await axios.get("/api/data/daily", {
           headers: {
             Authorization: `Bearer ${await getToken()}`,
           },
         });
 
-        const maintain = await axios.get("http://localhost:3000/api/data", {
+        const maintain = await axios.get("/api/data", {
           headers: {
             Authorization: `Bearer ${await getToken()}`,
           },

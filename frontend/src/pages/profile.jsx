@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useAuth, useUser } from "@clerk/clerk-react";
 
+axios.defaults.baseURL = import.meta.env.VITE_BASE_URL;
+
 import {
   User,
   Mail,
@@ -134,7 +136,7 @@ export default function Profile() {
   useEffect(() => {
     const fetchPlans = async () => {
       try {
-        const res = await axios.get("http://localhost:3000/api/data", {
+        const res = await axios.get("/api/data", {
           headers: {
             Authorization: `Bearer ${await getToken()}`,
           },

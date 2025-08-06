@@ -10,6 +10,8 @@ import DOMPurify from "dompurify";
 import {marked} from  'marked'
 import he from "he";
 
+axios.defaults.baseURL = import.meta.env.VITE_BASE_URL;
+
 
 // --- Reusable Card Component ---
 const PlanCard = ({
@@ -66,7 +68,7 @@ export default function Plan() {
   useEffect(() => {
     const fetchPlans = async () => {
       try {
-        const res = await axios.get("http://localhost:3000/api/data", {
+        const res = await axios.get("/api/data", {
           headers: {
             Authorization: `Bearer ${await getToken()}`,
           },
@@ -88,7 +90,7 @@ export default function Plan() {
   };
   const handlePdf = async () => {
     try {
-      const res = await axios.get("http://localhost:3000/api/data/download", {
+      const res = await axios.get("/api/data/download", {
         headers: {
           Authorization: `Bearer ${await getToken()}`,
         },
@@ -110,7 +112,7 @@ export default function Plan() {
   };
   const handlePdf2 = async () => {
     try {
-      const res = await axios.get("http://localhost:3000/api/data/download2", {
+      const res = await axios.get("/api/data/download2", {
         headers: {
           Authorization: `Bearer ${await getToken()}`,
         },

@@ -3,6 +3,9 @@ import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar.jsx";
 import toast from 'react-hot-toast'
 
+axios.defaults.baseURL = import.meta.env.VITE_BASE_URL;
+
+
 
 import {
   Flame,
@@ -94,7 +97,7 @@ export default function Display() {
     
     try {
       const res = await axios.post(
-        "http://localhost:3000/api/data/daily",
+        "/api/data/daily",
         {
           ...form,
         },
@@ -121,13 +124,13 @@ export default function Display() {
   useEffect(() => {
     const fetchPlans = async () => {
       try {
-        const res = await axios.get("http://localhost:3000/api/data", {
+        const res = await axios.get("/api/data", {
           headers: {
             Authorization: `Bearer ${await getToken()}`,
           },
         });
 
-        const result = await axios.get("http://localhost:3000/api/data/daily", {
+        const result = await axios.get("/api/data/daily", {
           headers: {
             Authorization: `Bearer ${await getToken()}`,
           },

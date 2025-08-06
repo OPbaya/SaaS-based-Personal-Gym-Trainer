@@ -12,10 +12,10 @@ import ProtectedRoute from "./components/protectedRoute.jsx";
 import Profile from "./pages/profile.jsx";
 
 const App = () => {
-  const { getToken } = useAuth();
-  useEffect(() => {
-    getToken().then((token) => console.log("Token:", token));
-  }, []);
+  // const { getToken } = useAuth();
+  // useEffect(() => {
+  //   getToken().then((token) => console.log("Token:", token));
+  // }, []);
   return (
     <div>
       {/* <Layout /> */}
