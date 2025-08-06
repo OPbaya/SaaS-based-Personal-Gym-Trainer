@@ -220,7 +220,7 @@ export default function DietPlan() {
           </h3>
           <button
             className=" mt-8 bg-indigo-600 text-white font-bold py-3 px-8 rounded-lg text-lg hover:bg-indigo-700 transition-colors inline-flex items-center gap-2 cursor-pointer"
-            onClick={() => navigate("/plan")}> View Plans
+            onClick={() => navigate("/v1/plan")}> View Plans
           </button>
         </div>
       )}

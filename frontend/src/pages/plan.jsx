@@ -186,7 +186,7 @@ export default function Plan() {
               </h3>
               <button
                 className="mt-8 bg-indigo-600 text-white font-bold py-3 px-8 rounded-lg text-lg hover:bg-indigo-700 transition-colors inline-flex items-center gap-2"
-                onClick={() => navigate("/diet")}
+                onClick={() => navigate("/v1/diet")}
               >
                 Get Started <MoveRight size={20} />
               </button>

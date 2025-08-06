@@ -156,7 +156,6 @@ export default function Display() {
   const navigate = useNavigate();
   const handleCardClick = (planType) => {
     // In a real app, this would navigate to a different page or open a modal
-    alert(`Navigating to ${planType} page!`);
     navigate("/v1/plan");
   };
 

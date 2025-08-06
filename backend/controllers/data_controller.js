@@ -392,7 +392,7 @@ export const pdf = async (req, res) => {
 export const gym_pdf = async (req, res) => {
     const { userId } = req; // set via Clerk middleware
     const clerkUserId = userId;
-    const Data = await UserHealthData.findOne({ clerkUserId }).lean(); // adjust as needed
+    const Data = await UserHealthData.findOne({ clerkUserId }); // adjust as needed
     const Plan = marked.parse(Data.gymPlan); // ✅ Convert Markdown to HTML
 
     const htmlContent = generateWorkoutPlanHTML(Plan); // assume it's an array of items
