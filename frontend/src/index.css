@@ -1,0 +1,22 @@
+@import "tailwindcss";
+
+.reset-tw,
+.reset-tw * {
+  all: revert !important;
+}
+
+.prose table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.prose th,
+.prose td {
+  padding: 0.5rem;
+  text-align: left;
+  border-bottom: 1px solid #3e3e3e;
+}
+
+.prose th {
+  background-color: rgba(76, 29, 149, 0.2);
+}
