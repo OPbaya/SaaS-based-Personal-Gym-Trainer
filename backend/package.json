@@ -13,6 +13,7 @@
   "description": "",
   "dependencies": {
     "@clerk/express": "^1.7.15",
+    "@sparticuz/chromium": "^138.0.2",
     "axios": "^1.11.0",
     "chrome-aws-lambda": "^10.1.0",
     "cors": "^2.8.5",

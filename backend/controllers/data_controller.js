@@ -6,7 +6,8 @@ import dotenv from 'dotenv';
 // import puppeteer from 'puppeteer'
 import { generateWorkoutPlanHTML } from "./workoutPlan.js";
 import { marked } from 'marked'; 
-import chromium from 'chrome-aws-lambda';
+// import chromium from 'chrome-aws-lambda';
+import chromium from '@sparticuz/chromium';
 import puppeteer from 'puppeteer-core';
 
 dotenv.config();
@@ -368,7 +369,9 @@ export const pdf = async (req, res) => {
     const browser = await puppeteer.launch({
         args: chromium.args,
         defaultViewport: chromium.defaultViewport,
-        executablePath: await chromium.executablePath,
+        executablePath: isDev
+            ? 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe' // ✅ Windows local path
+            : await chromium.executablePath, // ✅ Vercel will resolve this internally,
         headless: chromium.headless,
     });
     const page = await browser.newPage();
