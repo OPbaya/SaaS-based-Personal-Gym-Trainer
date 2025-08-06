@@ -130,7 +130,7 @@ export default function Display() {
           },
         });
 
-        const result = await axios.get("/api/data/daily", {
+        const result = await axios.get("Di/api/data/daily", {
           headers: {
             Authorization: `Bearer ${await getToken()}`,
           },
@@ -157,7 +157,7 @@ export default function Display() {
   const handleCardClick = (planType) => {
     // In a real app, this would navigate to a different page or open a modal
     alert(`Navigating to ${planType} page!`);
-    navigate("/plan");
+    navigate("/v1/plan");
   };
 
   return (
