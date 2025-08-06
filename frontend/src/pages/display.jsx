@@ -130,7 +130,7 @@ export default function Display() {
           },
         });
 
-        const result = await axios.get("Di/api/data/daily", {
+        const result = await axios.get("/api/data/daily", {
           headers: {
             Authorization: `Bearer ${await getToken()}`,
           },
