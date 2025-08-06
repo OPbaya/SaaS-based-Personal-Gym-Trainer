@@ -2,11 +2,10 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar.jsx";
 import toast from 'react-hot-toast'
+import { useAuth } from "@clerk/clerk-react";
+import axios from "axios";
 
 axios.defaults.baseURL = import.meta.env.VITE_BASE_URL;
-
-
-
 import {
   Flame,
   PlusCircle,
@@ -17,8 +16,6 @@ import {
   TrendingUp,
 } from "lucide-react";
 
-import { useAuth } from "@clerk/clerk-react";
-import axios from "axios";
 // --- Helper Components & Icons ---
 
 // Icon for the cards
@@ -70,9 +67,11 @@ const ActionCard = ({ title, description, bgColor, onClick }) => (
 
 export default function Display() {
   // const [userData,setUserData] = useState({}, maintainance: 22000)
-  const [userName, setName] = useState("");
   const { getToken } = useAuth();
 
+  const [userName, setName] = useState("");
+  const [maintenanceCalories, setMaintainanceCalories] = useState("");
+  const [weight2, setWeight2] = useState("");
   const [form, setForm] = useState({
     date: "",
     bodyWeight: "",
@@ -80,18 +79,6 @@ export default function Display() {
     caloriesBurned: "",
   });
 
-
-  const handleViewHistory = () => {
-    navigate("/v1/dash/history");
-  };
-
-  const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    setForm({
-      ...form,
-      [name]: type === "checkbox" ? checked : value,
-    });
-  };
   const submitDailyData = async (e) => {
     e.preventDefault();
     
@@ -117,10 +104,6 @@ export default function Display() {
     }
   };
 
-  const [maintenanceCalories, setMaintainanceCalories] = useState("");
-  
-  const [weight2, setWeight2] = useState("");
-  
   useEffect(() => {
     const fetchPlans = async () => {
       try {
@@ -129,7 +112,7 @@ export default function Display() {
             Authorization: `Bearer ${await getToken()}`,
           },
         });
-
+  
         const result = await axios.get("/api/data/daily", {
           headers: {
             Authorization: `Bearer ${await getToken()}`,
@@ -137,7 +120,7 @@ export default function Display() {
         });
         setWeight2(result.data[0]?.bodyWeight || 0);
         
-
+  
         console.log(weight2);
         
         setName(res.data.name);
@@ -148,9 +131,24 @@ export default function Display() {
         console.error("Error fetching plans:", error);
       }
     };
-
+  
     fetchPlans();
   }, []);
+
+
+  const handleViewHistory = () => {
+    navigate("/v1/dash/history");
+  };
+
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setForm({
+      ...form,
+      [name]: type === "checkbox" ? checked : value,
+    });
+  };
+
+  
 
   // Mock data using useState to simulate real application state
   const navigate = useNavigate();
