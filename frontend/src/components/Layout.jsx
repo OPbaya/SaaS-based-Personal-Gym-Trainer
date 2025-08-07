@@ -13,7 +13,7 @@ import {
   LayoutDashboard,
   Dumbbell,
   User,
-  Settings,
+  Utensils,
   LogOut,
   ChevronLeft,
   ChevronRight,
@@ -26,8 +26,8 @@ import {
 const navItems = [
   { icon: <LayoutDashboard size={20} />, text: "Dashboard", path: "/v1/dash" },
   { icon: <Dumbbell size={20} />, text: "Diet & Gym Plan", path: "/v1/plan" },
-  { icon: <User size={20} />, text: "Contact Trainer", path: "/v1/diet" },
-  { icon: <Settings size={20} />, text: "Profile", path: "/v1/profile" },
+  { icon: <Utensils size={20} />, text: "Personalised Diet & Workout Plans", path: "/v1/diet" },
+  { icon: <User size={20} />, text: "Profile", path: "/v1/profile" },
 ];
 
 // --- Reusable Sidebar Item ---
@@ -83,11 +83,15 @@ const Sidebar = ({ isSidebarOpen, setSidebarOpen }) => {
       <nav className="h-full flex flex-col bg-slate-800 border-r border-slate-700 shadow-sm">
         <div className="p-4 pb-2 flex justify-between items-center">
           <h1
-            className={`overflow-hidden transition-all font-bold text-2xl text-white ${
+            className={`flex items-center gap-2 cursor-pointer overflow-hidden transition-all font-bold text-2xl text-white ${
               isSidebarOpen ? "w-32" : "w-0"
             }`}
+            onClick={() => navigate("/")}
           >
-            FitSutra
+            <span className="flex items-center gap-2">
+              <Dumbbell size={30} className="text-indigo-400" />
+              FitSutra
+            </span>
           </h1>
           <button
             onClick={() => setSidebarOpen(!isSidebarOpen)}
@@ -127,10 +131,14 @@ const Sidebar = ({ isSidebarOpen, setSidebarOpen }) => {
               <button onClick={() => openSignUp()}>Sign Up</button> */}
             </div>
           </div>
-          <div className={`flex justify-between items-center overflow-hidden transition-all ${
+          <div
+            className={`flex justify-between items-center overflow-hidden transition-all ${
               isSidebarOpen ? "w-40 ml-3" : "w-0"
-            }`}>
-            <LogOut size={20} className="text-slate-400 hover:text-white cursor-pointer"
+            }`}
+          >
+            <LogOut
+              size={20}
+              className="text-slate-400 hover:text-white cursor-pointer"
             />
           </div>
         </div>
@@ -148,7 +156,9 @@ const MobileHeader = () => {
   return (
     <header className="lg:hidden fixed top-0 left-0 right-0 z-30 bg-slate-800/80 backdrop-blur-sm border-b border-slate-700">
       <div className="p-4 flex justify-between items-center">
-        <h1 className="font-bold text-xl text-white">FitSutra</h1>
+        <h1 className="font-bold text-xl text-white">
+          
+          FitSutra</h1>
         <button
           onClick={() => setMenuOpen(!isMenuOpen)}
           className="p-2 rounded-lg text-white"
