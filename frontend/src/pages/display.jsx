@@ -4,6 +4,8 @@ import Navbar from "../components/Navbar.jsx";
 import toast from "react-hot-toast";
 import { useAuth } from "@clerk/clerk-react";
 import axios from "axios";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 axios.defaults.baseURL = import.meta.env.VITE_BASE_URL;
 import {
@@ -20,7 +22,6 @@ import {
 
 // --- Helper Components & Icons ---
 
-// Icon for the cards
 const ArrowRightIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -38,19 +39,40 @@ const ArrowRightIcon = () => (
   </svg>
 );
 
-// A reusable card component for key metrics
-const StatCard = ({ title, value, unit, bgColor = "bg-slate-800" }) => (
+const StatCard = ({
+  title,
+  value,
+  unit,
+  bgColor = "bg-slate-800",
+  isLoading,
+}) => (
   <div
     className={`${bgColor} p-6 rounded-2xl shadow-lg flex flex-col justify-between border border-slate-700`}
   >
-    <p className="text-slate-400 font-medium">{title}</p>
+    <p className="text-slate-400 font-medium">
+      {isLoading ? (
+        <Skeleton width={100} baseColor="#334155" highlightColor="#475569" />
+      ) : (
+        title
+      )}
+    </p>
     <p className="text-3xl lg:text-4xl font-bold text-white">
-      {value} <span className="text-xl text-slate-300">{unit}</span>
+      {isLoading ? (
+        <Skeleton
+          width={120}
+          height={40}
+          baseColor="#334155"
+          highlightColor="#475569"
+        />
+      ) : (
+        <>
+          {value} <span className="text-xl text-slate-300">{unit}</span>
+        </>
+      )}
     </p>
   </div>
 );
 
-// A reusable component for the main action cards (Diet/Gym Plan)
 const ActionCard = ({ title, description, bgColor, onClick }) => (
   <button
     onClick={onClick}
@@ -67,12 +89,13 @@ const ActionCard = ({ title, description, bgColor, onClick }) => (
 // --- Main Dashboard Component ---
 
 export default function Display() {
-  // const [userData,setUserData] = useState({}, maintainance: 22000)
   const { getToken } = useAuth();
+  const navigate = useNavigate();
 
   const [userName, setName] = useState("");
   const [maintenanceCalories, setMaintainanceCalories] = useState("");
   const [weight2, setWeight2] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
   const [form, setForm] = useState({
     date: "",
     bodyWeight: "",
@@ -98,8 +121,6 @@ export default function Display() {
 
       toast.success("Successfully Added!");
       console.log(res.data);
-
-      // setDietPlan(res.data.dietPlan);
     } catch (error) {
       console.error("Error fetching plans:", error);
     }
@@ -107,6 +128,7 @@ export default function Display() {
 
   useEffect(() => {
     const fetchPlans = async () => {
+      setIsLoading(true);
       try {
         const res = await axios.get("/api/data", {
           headers: {
@@ -126,9 +148,10 @@ export default function Display() {
         setName(res.data.name);
         setMaintainanceCalories(res.data.m_cal);
         console.log(userName);
-        // setDietPlan(res.data.dietPlan);
       } catch (error) {
         console.error("Error fetching plans:", error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -147,10 +170,7 @@ export default function Display() {
     });
   };
 
-  // Mock data using useState to simulate real application state
-  const navigate = useNavigate();
   const handleCardClick = (planType) => {
-    // In a real app, this would navigate to a different page or open a modal
     navigate("/v1/plan");
   };
 
@@ -159,13 +179,36 @@ export default function Display() {
       <div className="max-w-7xl mx-auto">
         {/* --- Header --- */}
         <header className="mb-8">
-          <h1 className="text-4xl font-bold text-white">Hi, {userName}!</h1>
+          <h1 className="text-4xl font-bold text-white">
+            {isLoading ? (
+              <Skeleton
+                width={200}
+                baseColor="#334155"
+                highlightColor="#475569"
+              />
+            ) : (
+              `Hi, ${userName}!`
+            )}
+          </h1>
           <p className="text-slate-400 mt-2 text-lg">
-            Ready to crush your goals today?
+            {isLoading ? (
+              <Skeleton
+                width={300}
+                baseColor="#334155"
+                highlightColor="#475569"
+              />
+            ) : (
+              "Ready to crush your goals today?"
+            )}
           </p>
         </header>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {!userName ? (
+          {isLoading ? (
+            // Skeleton for empty state card
+            <div className="md:col-span-2 bg-slate-800/80 border border-slate-700 rounded-2xl flex flex-col items-center justify-center text-center p-10 h-96">
+              <Skeleton/>
+            </div>
+          ) : !userName ? (
             <div className="md:col-span-2 bg-slate-800/80 border border-slate-700 rounded-2xl flex flex-col items-center justify-center text-center p-10 h-96">
               <div className="p-4 bg-indigo-600/20 rounded-full mb-4">
                 <Goal className="h-10 w-10 text-indigo-400" />
@@ -197,6 +240,7 @@ export default function Display() {
                     title="Current Weight"
                     value={weight2}
                     unit="kg"
+                    isLoading={false}
                   />
 
                   <StatCard
@@ -204,6 +248,7 @@ export default function Display() {
                     title="Maintenance"
                     value={maintenanceCalories}
                     unit="kcal"
+                    isLoading={false}
                   />
                 </div>
               </div>
@@ -289,25 +334,30 @@ export default function Display() {
               </div>
             </div>
           )}
-          {/* --- Main Grid Layout --- */}
-
-          {/* --- Left Column: Progress & Stats --- */}
 
           {/* --- Right Column --- */}
-          <div className="lg:col-span-1 space-y-6 lg:space-y-8">
-            <ActionCard
-              title="Diet Plan"
-              description="View your daily meals"
-              bgColor="bg-gradient-to-br from-blue-500 to-blue-700"
-              onClick={() => handleCardClick("Diet Plan")}
+          {isLoading ? (
+            <Skeleton
+              height={200}
+              baseColor="#334155"
+              highlightColor="#475569"
             />
-            <ActionCard
-              title="Gym Plan"
-              description="See your workout routine"
-              bgColor="bg-gradient-to-br from-purple-500 to-purple-700"
-              onClick={() => handleCardClick("Gym Plan")}
-            />
-          </div>
+          ) : (
+            <div className="lg:col-span-1 space-y-6 lg:space-y-8">
+              <ActionCard
+                title="Diet Plan"
+                description="View your daily meals"
+                bgColor="bg-gradient-to-br from-blue-500 to-blue-700"
+                onClick={() => handleCardClick("Diet Plan")}
+              />
+              <ActionCard
+                title="Gym Plan"
+                description="See your workout routine"
+                bgColor="bg-gradient-to-br from-purple-500 to-purple-700"
+                onClick={() => handleCardClick("Gym Plan")}
+              />
+            </div>
+          )}
         </div>
       </div>
     </div>
