@@ -205,7 +205,8 @@ export default function DietPlan() {
         />
         <button
           type="submit"
-          className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded"
+          disabled={loading}
+          className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded disabled:opacity-50"
         >
           {loading ? "Generating..." : "Submit"}
         </button>
@@ -220,7 +221,10 @@ export default function DietPlan() {
           </h3>
           <button
             className=" mt-8 bg-indigo-600 text-white font-bold py-3 px-8 rounded-lg text-lg hover:bg-indigo-700 transition-colors inline-flex items-center gap-2 cursor-pointer"
-            onClick={() => navigate("/v1/plan")}> View Plans
+            onClick={() => navigate("/v1/plan")}
+          >
+            {" "}
+            View Plans
           </button>
         </div>
       )}

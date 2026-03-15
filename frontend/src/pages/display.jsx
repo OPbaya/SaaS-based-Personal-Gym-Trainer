@@ -5,6 +5,7 @@ import toast from "react-hot-toast";
 import { useAuth } from "@clerk/clerk-react";
 import axios from "axios";
 import Skeleton from "react-loading-skeleton";
+import WeightChart from "../components/WeightChart.jsx";
 import "react-loading-skeleton/dist/skeleton.css";
 
 axios.defaults.baseURL = import.meta.env.VITE_BASE_URL;
@@ -116,7 +117,7 @@ export default function Display() {
           headers: {
             Authorization: `Bearer ${await getToken()}`,
           },
-        }
+        },
       );
 
       toast.success("Successfully Added!");
@@ -136,6 +137,7 @@ export default function Display() {
           },
         });
 
+        
         const result = await axios.get("/api/data/daily", {
           headers: {
             Authorization: `Bearer ${await getToken()}`,
@@ -173,6 +175,7 @@ export default function Display() {
   const handleCardClick = (planType) => {
     navigate("/v1/plan");
   };
+  
 
   return (
     <div className="min-h-screen bg-slate-900 text-white font-sans p-4 sm:p-6 lg:p-8">
@@ -206,7 +209,7 @@ export default function Display() {
           {isLoading ? (
             // Skeleton for empty state card
             <div className="md:col-span-2 bg-slate-800/80 border border-slate-700 rounded-2xl flex flex-col items-center justify-center text-center p-10 h-96">
-              <Skeleton/>
+              <Skeleton />
             </div>
           ) : !userName ? (
             <div className="md:col-span-2 bg-slate-800/80 border border-slate-700 rounded-2xl flex flex-col items-center justify-center text-center p-10 h-96">
@@ -332,6 +335,7 @@ export default function Display() {
                   </div>
                 </form>
               </div>
+              {/* --- Weight Progress Chart --- */}
             </div>
           )}
 

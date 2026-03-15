@@ -10,6 +10,7 @@ import HistoryPage from "./pages/history.jsx"
 import Homepage from "./pages/home.jsx";
 import ProtectedRoute from "./components/protectedRoute.jsx";
 import Profile from "./pages/profile.jsx";
+import Graph from "./pages/graph.jsx";
 
 const App = () => {
   // const { getToken } = useAuth();
@@ -23,6 +24,14 @@ const App = () => {
         <Route path="/" element={<Homepage />} />
         <Route path="/v1" element={<Layout />}>
           <Route
+            path="/v1/graph"
+            element={
+              <ProtectedRoute>
+                <Graph />
+              </ProtectedRoute>
+            }
+          />
+          <Route
             path="/v1/diet"
             element={
               <ProtectedRoute>
@@ -34,7 +43,7 @@ const App = () => {
             path="/v1/profile"
             element={
               <ProtectedRoute>
-                <Profile/>
+                <Profile />
               </ProtectedRoute>
             }
           />
